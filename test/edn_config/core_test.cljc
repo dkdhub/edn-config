@@ -152,7 +152,7 @@
   (let [config (read-config "test/edn_config/config.edn" {:profile :dev})]
     (is (= "dummy" (:dummy config)))))
 
-#_#?(:clj
+#?(:clj
    (deftest resolver-tests
      (let [source (io/resource "edn_config/includes.edn")]
        (is (read-config source {:profile :relative}))
@@ -164,11 +164,11 @@
        (is (read-config source {:profile  :map
                                 :resolver {:sub-includes (io/resource "edn_config/sub/includes.edn")
                                            :valid-file   (io/resource "edn_config/valid.edn")}}))
-       (is (:edn_config/missing-include (read-config source {:profile :file-does-not-exist}))))))
+       (is (:edn-config/missing-include (read-config source {:profile :file-does-not-exist}))))))
 
-#_(deftest missing-include-test
+(deftest missing-include-test
   (let [source "test/edn_config/includes.edn"]
-    (is (:edn_config/missing-include (read-config source {:profile :file-does-not-exist})))))
+    (is (:edn-config/missing-include (read-config source {:profile :file-does-not-exist})))))
 
 (deftest dangling-ref-test
   (is (= {:user {:favorite-color :blue}
