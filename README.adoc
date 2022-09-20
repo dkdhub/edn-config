@@ -54,7 +54,7 @@ or to read from the classpath, like this
 
 ----
 
-Keep in mind that even though `(read-config &quot;config.edn&quot;)` will work in your Repl and when running tests, it's very likely to catastrophically fail if you run your application from the generated `.jar` file.
+Keep in mind that even though `(read-config "config.edn")` will work in your Repl and when running tests, it's very likely to catastrophically fail if you run your application from the generated `.jar` file.
 
 So to avoid surprises it's better to always use `io/resource` which works in all scenarios.
 
@@ -265,7 +265,7 @@ Take the following config map for example:
   {:db #ref [:db-connection]}}
 ----
 
-Both `:analytics` and `:webserver` will have their `:db` keys resolved to `&quot;datomic:dynamo://dynamodb&quot;`
+Both `:analytics` and `:webserver` will have their `:db` keys resolved to `"datomic:dynamo://dynamodb"`
 
 References are recursive.
 They can be used in `#include` files.
@@ -413,7 +413,7 @@ This avoids all the boilerplate required in passing config around the various co
       (system-using (new-dependency-map))))
 ----
 
-Also, if you follow the pattern described https://juxt.pro/blog/posts/component-meet-schema.html[here] you can also ensure accurate configuration is given to each component without having to maintain explicit schemas.
+Also, you can also ensure accurate configuration is given to each component without having to maintain explicit schemas.
 This way, you only verify the config that you are actually using.
 
 === Feature toggles
@@ -437,7 +437,7 @@ It is intended for use in creating your own conditional constructs like `#profil
 
 The easiest kind of tagged literal to create is a case-like one.
 A case-like tagged literal is one which takes a map of possible paths to take.
-An example of this in EDN COnfig is `#profile`.
+An example of this in EDN Config is `#profile`.
 
 Here's how you can define your own version of `#profile`:
 
@@ -481,13 +481,15 @@ EDN Config (formerly Aero) is influenced by https://github.com/james-henderson/n
 Thanks to the following people for inspiration, contributions, feedback and suggestions.
 
 * Gardner Vickers
+* JUXT LTD team
 
 == Copyright &amp; License
 
 The MIT License (MIT)
 
-Copyright © 2015-2022 JUXT LTD (as just/aero)
-Copyright © 2022 UPD Consulting Ltd (as com.dkdhub/edn-config)
+Copyright © 2015-2022 JUXT LTD (as `just/aero`)
+
+Copyright © 2022 UPD Consulting Ltd (as `com.dkdhub/edn-config`)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
