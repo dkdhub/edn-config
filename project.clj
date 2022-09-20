@@ -1,4 +1,4 @@
-(defproject com.dkdhub/edn-config "1.0.0"
+(defproject com.dkdhub/edn-config "1.0.1"
   :description "A small library for explicit, intentful configuration."
   :url "http://github.com/dkdhub/edn-config"
   :license {:name "The MIT License"
