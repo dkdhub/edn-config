@@ -4,13 +4,10 @@ A small library for explicit, intentful configuration.
 
 == Rationale
 
-The library was originally developed and maintained till early 2020 by JUXT LTD as just/aero but since then seems
-abandoned and not reflecting proposed fixes and changes.
+The library was originally developed and maintained till early 2020 by JUXT LTD as just/aero but since then seems abandoned and not reflecting proposed fixes and changes.
 Since the library is widely used in many clojure projects this fork is intended to be a drop-in replacement.
 
-Please, pay attention that the fork is not of a main goal of development and supporting the library itself
-but to unlock further development and improvement of other dependent services and to avoid future hardcoding
-of local fixes of original library into the services itself.
+Please, pay attention that the fork is not of a main goal of development and supporting the library itself but to unlock further development and improvement of other dependent services and to avoid future hardcoding of local fixes of original library into the services itself.
 
 The artefact name change intended to avoid misuse and any of possible confusions
 and also to make a migrations footprint as small as possible:
@@ -65,8 +62,7 @@ So to avoid surprises it's better to always use `io/resource` which works in all
 Configuration should be explicit, intentful, obvious, but not clever.
 It should be easy to understand what the config is, and where it is declared.
 
-Determining config in stressful situations, for example, while diagnosing the cause of a production issue, should not be a
-http://en.wiktionary.org/wiki/wild-goose_chase[wild goose chase].
+Determining config in stressful situations, for example, while diagnosing the cause of a production issue, should not be a http://en.wiktionary.org/wiki/wild-goose_chase[wild goose chase].
 
 === Avoid duplication …
 
@@ -105,7 +101,7 @@ Fortunately for Clojure developers like us, most of the tech to read configurati
 
 == Tag literals
 
-Aero provides a small library of tag literals.
+EDN Config (formerly Aero) provides a small library of tag literals.
 
 === env
 
@@ -224,7 +220,7 @@ This allows you to split your config files to prevent them from getting too larg
 
 NOTE: By default `#include` will attempt to resolve the file to be included _relative_ to the config file it's being included from. (this won't work for jars)
 
-You can provide your own custom resolver to replace the default behaviour or use one that aero provides (`resource-resolver`, `root-resolver`).
+You can provide your own custom resolver to replace the default behaviour or use one that `edn-config` provides (`resource-resolver`, `root-resolver`).
 For example
 
 [source,clojure]
@@ -273,7 +269,7 @@ They can be used in `#include` files.
 
 === Define your own
 
-Aero supports user-defined tag literals.
+EDN Config (formerly Aero) supports user-defined tag literals.
 Just extend the `reader` multimethod.
 
 [source,clojure]
@@ -305,7 +301,7 @@ Here is how this can be achieved:
 
 === Use functions to wrap access to your configuration.
 
-Here's some good advice on using Aero in your own programs.
+Here's some good advice on using EDN Config (formerly Aero) in your own programs.
 
 Define a dedicated namespace for config that reads the config and provides functions to access it.
 
@@ -327,15 +323,15 @@ If your configuration structure changes, you only have to change the wrappers, r
 Your program should call the `config` function, usually with an argument specifying the configuration profile.
 It then returned value passes the returned value through functions or via lexical scope (possibly components).
 
-=== Using Aero with Plumatic schema
+=== Using EDN Config with Plumatic schema
 
-Aero has frictionless integration with https://github.com/plumatic/schema[Plumatic Schema].
+EDN Config (formerly Aero) has frictionless integration with https://github.com/plumatic/schema[Plumatic Schema].
 If you wish, specify your configuration schemas and run `check` or `validate` against the data returned from `read-config`.
 
-=== Using Aero with components
+=== Using EDN Config with components
 
 If you are using Stuart Sierra's
-https://github.com/stuartsierra/component[component] library, here's how you might integrate Aero.
+https://github.com/stuartsierra/component[component] library, here's how you might integrate EDN Config.
 
 [source,clojure]
 ----
@@ -419,7 +415,7 @@ This way, you only verify the config that you are actually using.
 
 === Feature toggles
 
-Aero is a great way to implement http://martinfowler.com/articles/feature-toggles.html[feature toggles].
+EDN Config (formerly Aero) is a great way to implement http://martinfowler.com/articles/feature-toggles.html[feature toggles].
 
 === Use a single configuration file
 
@@ -430,7 +426,7 @@ It is generally better to surface complexity than hide it away.
 
 == (Alpha) Define macro tag literals
 
-`aero.alpha.core` defines a new experimental API for tagged literals.
+`edn-config.alpha.core` defines a new experimental API for tagged literals.
 This API allows you to define tagged literal "macros" similar to macros in Clojure.
 It is intended for use in creating your own conditional constructs like `#profile` and `#or`.
 
@@ -438,7 +434,7 @@ It is intended for use in creating your own conditional constructs like `#profil
 
 The easiest kind of tagged literal to create is a case-like one.
 A case-like tagged literal is one which takes a map of possible paths to take.
-An example of this in Aero is `#profile`.
+An example of this in EDN COnfig is `#profile`.
 
 Here's how you can define your own version of `#profile`:
 
@@ -458,7 +454,7 @@ Here's how you can define your own version of `#profile`:
 === Other conditional constructs
 
 `#or` is very different from `#profile` in implementation, and doesn't have a convenience function.
-The source for `#or` in `aero.core` is a good example of doing custom partial expansion from a tagged literal.
+The source for `#or` in `edn-config.core` is a good example of doing custom partial expansion from a tagged literal.
 
 The primitives you will need to understand are: `edn-config.alpha.core/expand`, `edn-config.alpha.core/expand-coll`, `edn-config.alpha.core/expand-scalar`.
 And helpers: `edn-config.alpha.core/expand-scalar-repeatedly`.
