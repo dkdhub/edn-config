@@ -20,7 +20,8 @@
                [goog.object :as gobj]
                ["fs" :as fs]
                ["path" :as path] ["os" :as os]]))
-  #?(:clj (:import (java.io StringReader File)))
+  #?(:clj (:import (java.io StringReader File)
+                   (clojure.lang LineNumberingPushbackReader)))
   #?(:cljs (:require-macros [edn-config.impl.macro :as macro])))
 
 (defrecord Deferred [delegate])
@@ -197,7 +198,7 @@
 (defn read-config-into-tagged-literal
   [source]
   #?(:clj
-     (with-open [pr (-> source io/reader clojure.lang.LineNumberingPushbackReader.)]
+     (with-open [pr (-> source io/reader LineNumberingPushbackReader.)]
        (try
          (read-pr-into-tagged-literal pr)
          (catch Exception e
