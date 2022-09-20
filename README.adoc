@@ -12,6 +12,11 @@ Please, pay attention that the fork is not of a main goal of development and sup
 but to unlock further development and improvement of other dependent services and to avoid future hardcoding
 of local fixes of original library into the services itself.
 
+The artefact name change intended to avoid misuse and any of possible confusions
+and also to make a migrations footprint as small as possible:
+migration from `aero` versions of `1.1.4-1.1.6` to `end-config` of version `1.0.0`
+should be as easy as just proper replacing dependency and referred `:requires` sections.
+
 == Installation
 
 Add the following dependency to your `project.clj` file
@@ -36,7 +41,7 @@ In your code, read the configuration like this
 
 [source,clojure]
 ----
-(require '[aero.core :refer (read-config)])
+(require '[edn-config.core :refer (read-config)])
 (read-config "config.edn")
 
 ----
@@ -224,7 +229,7 @@ For example
 
 [source,clojure]
 ----
-(require '[aero.core :refer (read-config resource-resolver)])
+(require '[edn-config.core :refer (read-config resource-resolver)])
 (read-config "config.edn" {:resolver resource-resolver})
 ----
 
@@ -307,7 +312,7 @@ Define a dedicated namespace for config that reads the config and provides funct
 [source,clojure]
 ----
 (ns myproj.config
-  (:require [aero.core :as aero]))
+  (:require [edn-config.core :as aero]))
 
 (defn config [profile]
   (aero/read-config "dev/config.edn" {:profile profile}))
@@ -440,11 +445,11 @@ Here's how you can define your own version of `#profile`:
 [source,clojure]
 ----
 (ns myns
-  (:require [aero.alpha.core :as aero.alpha]))
+  (:require [edn-config.alpha.core :as edn-config.alpha]))
 
-(defmethod aero.alpha/eval-tagged-literal 'profile
+(defmethod edn-config.alpha/eval-tagged-literal 'profile
   [tagged-literal opts env ks]
-  (aero.alpha/expand-case (:profile opts) tagged-literal opts env ks))
+  (edn-config.alpha/expand-case (:profile opts) tagged-literal opts env ks))
 ----
 
 `eval-tagged-literal` allows you to define macro tagged literals.
@@ -455,12 +460,12 @@ Here's how you can define your own version of `#profile`:
 `#or` is very different from `#profile` in implementation, and doesn't have a convenience function.
 The source for `#or` in `aero.core` is a good example of doing custom partial expansion from a tagged literal.
 
-The primitives you will need to understand are: `aero.alpha.core/expand`, `aero.alpha.core/expand-coll`, `aero.alpha.core/expand-scalar`.
-And helpers: `aero.alpha.core/expand-scalar-repeatedly`.
+The primitives you will need to understand are: `edn-config.alpha.core/expand`, `edn-config.alpha.core/expand-coll`, `edn-config.alpha.core/expand-scalar`.
+And helpers: `edn-config.alpha.core/expand-scalar-repeatedly`.
 These vars have docstrings which explain their specific purpose.
 
 All expand-* functions take parameters `opts`, `env`, and `ks`.
-`opts` are the same `opts` that are passed to `aero.core/read-config`.
+`opts` are the same `opts` that are passed to `edn-config.core/read-config`.
 `env` is a map of `ks` to their resolved values in the config, being absent from this map means the value is not yet resolved.
 `ks` is a vector representing the current key path into the location of this tagged literal.
 
@@ -468,9 +473,9 @@ Your implementation of eval-tagged-literal must `assoc` the `ks` into `env` if i
 
 == References
 
-Aero is built on Clojure's https://github.com/edn-format/edn[edn].
+EDN Config (formerly Aero) is built on Clojure's https://github.com/edn-format/edn[edn].
 
-Aero is influenced by https://github.com/james-henderson/nomad[nomad], but purposely avoids instance, environment and private config.
+EDN Config (formerly Aero) is influenced by https://github.com/james-henderson/nomad[nomad], but purposely avoids instance, environment and private config.
 
 == Acknowledgments
 
@@ -482,7 +487,8 @@ Thanks to the following people for inspiration, contributions, feedback and sugg
 
 The MIT License (MIT)
 
-Copyright © 2015 JUXT LTD.
+Copyright © 2015-2022 JUXT LTD (as just/aero)
+Copyright © 2022 UPD Consulting Ltd (as com.dkdhub/edn-config)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
