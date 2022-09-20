@@ -11,7 +11,7 @@ Please, pay attention that the fork is not of a main goal of development and sup
 
 The artefact name change intended to avoid misuse and any of possible confusions
 and also to make a migrations footprint as small as possible:
-migration from `aero` versions of `1.1.4-1.1.6` to `end-config` of version `1.0.0`
+migration from `aero` versions of `1.1.4-1.1.6` to `edn-config` of version `1.0.0`
 should be as easy as just proper replacing dependency and referred `:requires` sections.
 
 == Installation
