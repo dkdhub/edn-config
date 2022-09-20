@@ -1,0 +1,5 @@
+#include #profile {:relative "../valid.edn"
+                   :relative-abs "../valid.edn"
+                   :resource "edn_config/valid.edn"
+                   :file "test/edn_config/valid.edn"
+                   :map :valid-file}

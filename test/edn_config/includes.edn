@@ -1,0 +1,6 @@
+#include #profile {:relative "sub/includes.edn"
+                   :relative-abs #join [#env "PWD" "/test/edn_config/sub/includes.edn"]
+                   :resource "edn_config/sub/includes.edn"
+                   :file "test/edn_config/sub/includes.edn"
+                   :file-does-not-exist "goodluck.edn"
+                   :map :sub-includes}
