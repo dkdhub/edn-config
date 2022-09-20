@@ -2,6 +2,16 @@
 
 A small library for explicit, intentful configuration.
 
+== Rationale
+
+The library was originally developed and maintained till early 2020 by JUXT LTD as just/aero but since then seems
+abandoned and not reflecting proposed fixes and changes.
+Since the library is widely used in many clojure projects this fork is intended to be a drop-in replacement.
+
+Please, pay attention that the fork is not of a main goal of development and supporting the library itself
+but to unlock further development and improvement of other dependent services and to avoid future hardcoding
+of local fixes of original library into the services itself.
+
 == Installation
 
 Add the following dependency to your `project.clj` file
@@ -10,8 +20,7 @@ image:http://clojars.org/aero/latest-version.svg[Clojars Project,link=http://clo
 
 == Status
 
-Please note that being a beta version indicates the provisional status
-of this library, and that features are subject to change.
+Please note that being a beta version indicates the provisional status of this library, and that features are subject to change.
 
 == Getting started
 
@@ -48,26 +57,25 @@ So to avoid surprises it's better to always use `io/resource` which works in all
 
 === Explicit and intentional
 
-Configuration should be explicit, intentful, obvious, but not clever. It
-should be easy to understand what the config is, and where it is
-declared.
+Configuration should be explicit, intentful, obvious, but not clever.
+It should be easy to understand what the config is, and where it is declared.
 
-Determining config in stressful situations, for example, while
-diagnosing the cause of a production issue, should not be a
+Determining config in stressful situations, for example, while diagnosing the cause of a production issue, should not be a
 http://en.wiktionary.org/wiki/wild-goose_chase[wild goose chase].
 
 === Avoid duplication …
 
-Config files are often duplicated on a per-environment basis, attracting
-all the problems associated with duplication.
+Config files are often duplicated on a per-environment basis, attracting all the problems associated with duplication.
 
 === … but allow for difference
 
-When looking at a config file, a reader will usually ask: "Does the value differ from the default, and if so how?". It's clearly better to answer that question in-place.
+When looking at a config file, a reader will usually ask: "Does the value differ from the default, and if so how?".
+It's clearly better to answer that question in-place.
 
 === Allow config to be stored in the source code repository …
 
-When config is left out of source code control it festers and diverges from the code base. Better to keep a single config file in source code control.
+When config is left out of source code control it festers and diverges from the code base.
+Better to keep a single config file in source code control.
 
 === … while hiding passwords
 
@@ -75,11 +83,14 @@ While it is good to keep config in source code control, it is important to ensur
 
 === Config should be data
 
-While it can be very flexible to have 'clever' configuration 'programs', it can be http://www.learningclojure.com/2013/02/clojures-reader-is-unsafe.html[unsafe], lead to exploits and compromise security. Configuration is a key input to a program. Always use data for configuration and http://langsec.org/occupy[avoid turing-complete] languages!
+While it can be very flexible to have 'clever' configuration 'programs', it can be http://www.learningclojure.com/2013/02/clojures-reader-is-unsafe.html[unsafe], lead to exploits and compromise security.
+Configuration is a key input to a program.
+Always use data for configuration and http://langsec.org/occupy[avoid turing-complete] languages!
 
 === Use environment variables sparingly
 
-We suggest using environment variables judiciously and sparingly, the way Unix intends, and not http://12factor.net/config[go mad]. After all, we want to keep configuration explicit and intentional.
+We suggest using environment variables judiciously and sparingly, the way Unix intends, and not http://12factor.net/config[go mad].
+After all, we want to keep configuration explicit and intentional.
 
 Also, see these arguments https://gist.github.com/telent/9742059[against].
 
@@ -100,7 +111,9 @@ Use `#env` to reference an environment variable.
 {:database-uri #env DATABASE_URI}
 ----
 
-It is considered bad practice to use environment variables for passwords and other confidential information. This is because it is very easy to leak a process's environment (e.g. via `ps e -f` or to your application monitoring tool). Instead you should use `#include` - see <<hide-passwords-in-local-private-files,here>>.
+It is considered bad practice to use environment variables for passwords and other confidential information.
+This is because it is very easy to leak a process's environment (e.g. via `ps e -f` or to your application monitoring tool).
+Instead you should use `#include` - see <<hide-passwords-in-local-private-files,here>>.
 
 === envf
 
@@ -165,8 +178,8 @@ which will return
 
 === hostname
 
-Use when config has to differ from host to host, using the hostname. You
-can specify multiple hostnames in a set.
+Use when config has to differ from host to host, using the hostname.
+You can specify multiple hostnames in a set.
 
 [source,clojure]
 ----
@@ -195,8 +208,8 @@ Use to parse a `String` value into a `Integer`, `Long`, `Double`, keyword or boo
 
 === include
 
-Use to include another config file. This allows you to split your config files
-to prevent them from getting too large.
+Use to include another config file.
+This allows you to split your config files to prevent them from getting too large.
 
 [source,clojure]
 ----
@@ -204,11 +217,10 @@ to prevent them from getting too large.
  :analytics #include "analytics.edn"}
 ----
 
-NOTE: By default `#include` will attempt to resolve the file to be included _relative_ to the
-config file it's being included from. (this won't work for jars)
+NOTE: By default `#include` will attempt to resolve the file to be included _relative_ to the config file it's being included from. (this won't work for jars)
 
-You can provide your own custom resolver to replace the default behaviour or use one that
-aero provides (`resource-resolver`, `root-resolver`). For example
+You can provide your own custom resolver to replace the default behaviour or use one that aero provides (`resource-resolver`, `root-resolver`).
+For example
 
 [source,clojure]
 ----
@@ -216,7 +228,8 @@ aero provides (`resource-resolver`, `root-resolver`). For example
 (read-config "config.edn" {:resolver resource-resolver})
 ----
 
-You can also provide a map as a resolver. For example
+You can also provide a map as a resolver.
+For example
 
 [source,clojure]
 ----
@@ -236,7 +249,8 @@ Merge multiple maps together
 
 To avoid duplication you can refer to other parts of your configuration file using the `#ref` tag.
 
-The `#ref` value should be a vector resolveable by `get-in`. Take the following config map for example:
+The `#ref` value should be a vector resolveable by `get-in`.
+Take the following config map for example:
 
 [source,clojure]
 ----
@@ -247,14 +261,15 @@ The `#ref` value should be a vector resolveable by `get-in`. Take the following 
   {:db #ref [:db-connection]}}
 ----
 
-Both `:analytics` and `:webserver` will have their `:db` keys resolved
-to `&quot;datomic:dynamo://dynamodb&quot;`
+Both `:analytics` and `:webserver` will have their `:db` keys resolved to `&quot;datomic:dynamo://dynamodb&quot;`
 
-References are recursive. They can be used in `#include` files.
+References are recursive.
+They can be used in `#include` files.
 
 === Define your own
 
-Aero supports user-defined tag literals. Just extend the `reader` multimethod.
+Aero supports user-defined tag literals.
+Just extend the `reader` multimethod.
 
 [source,clojure]
 ----
@@ -269,7 +284,8 @@ Aero supports user-defined tag literals. Just extend the `reader` multimethod.
 
 === Hide passwords in local private files
 
-Passwords and other confidential information should not be stored in version control, nor be specified in environment variables. One alternative option is to create a private file in the HOME directory that contains only the information that must be kept outside version control (it is good advice that everything else be subject to configuration management via version control).
+Passwords and other confidential information should not be stored in version control, nor be specified in environment variables.
+One alternative option is to create a private file in the HOME directory that contains only the information that must be kept outside version control (it is good advice that everything else be subject to configuration management via version control).
 
 Here is how this can be achieved:
 
@@ -300,13 +316,16 @@ Define a dedicated namespace for config that reads the config and provides funct
   (get-in config [:webserver :port]))
 ----
 
-This way, you build a simple layer of indirection to insulate the parts of your program that access configuration from the evolving structure of the configuration file. If your configuration structure changes, you only have to change the wrappers, rather than locate and update all the places in your code where configuration is accessed.
+This way, you build a simple layer of indirection to insulate the parts of your program that access configuration from the evolving structure of the configuration file.
+If your configuration structure changes, you only have to change the wrappers, rather than locate and update all the places in your code where configuration is accessed.
 
-Your program should call the `config` function, usually with an argument specifying the configuration profile. It then returned value passes the returned value through functions or via lexical scope (possibly components).
+Your program should call the `config` function, usually with an argument specifying the configuration profile.
+It then returned value passes the returned value through functions or via lexical scope (possibly components).
 
 === Using Aero with Plumatic schema
 
-Aero has frictionless integration with https://github.com/plumatic/schema[Plumatic Schema]. If you wish, specify your configuration schemas and run `check` or `validate` against the data returned from `read-config`.
+Aero has frictionless integration with https://github.com/plumatic/schema[Plumatic Schema].
+If you wish, specify your configuration schemas and run `check` or `validate` against the data returned from `read-config`.
 
 === Using Aero with components
 
@@ -352,7 +371,8 @@ For example, imagine you have a config file:
  :database {:uri "datomic:mem://myapp/dev"}}
 ----
 
-Here we create a system as normal but with the key difference that we configure the system map after we have created using `merge-with merge`. This avoids all the boilerplate required in passing config around the various component constructors.
+Here we create a system as normal but with the key difference that we configure the system map after we have created using `merge-with merge`.
+This avoids all the boilerplate required in passing config around the various component constructors.
 
 [source,clojure]
 ----
@@ -389,7 +409,8 @@ Here we create a system as normal but with the key difference that we configure 
       (system-using (new-dependency-map))))
 ----
 
-Also, if you follow the pattern described https://juxt.pro/blog/posts/component-meet-schema.html[here] you can also ensure accurate configuration is given to each component without having to maintain explicit schemas. This way, you only verify the config that you are actually using.
+Also, if you follow the pattern described https://juxt.pro/blog/posts/component-meet-schema.html[here] you can also ensure accurate configuration is given to each component without having to maintain explicit schemas.
+This way, you only verify the config that you are actually using.
 
 === Feature toggles
 
@@ -397,7 +418,10 @@ Aero is a great way to implement http://martinfowler.com/articles/feature-toggle
 
 === Use a single configuration file
 
-If at all possible, try to avoid having lots of configuration files and stick with a single file. That way, you're encouraged to keep configuration down to a minimum. Having a single file is also useful because it can be more easily edited, published, emailed, https://github.com/juxt/dirwatch[watched] for changes. It is generally better to surface complexity than hide it away.
+If at all possible, try to avoid having lots of configuration files and stick with a single file.
+That way, you're encouraged to keep configuration down to a minimum.
+Having a single file is also useful because it can be more easily edited, published, emailed, https://github.com/juxt/dirwatch[watched] for changes.
+It is generally better to surface complexity than hide it away.
 
 == (Alpha) Define macro tag literals
 
@@ -464,4 +488,5 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
