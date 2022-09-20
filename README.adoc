@@ -18,7 +18,10 @@ should be as easy as just proper replacing dependency and referred `:requires` s
 
 Add the following dependency to your `project.clj` file
 
-image:http://clojars.org/aero/latest-version.svg[Clojars Project,link=http://clojars.org/dkdhub]
+image:https://img.shields.io/github/license/dkdhub/edn-config[GitHub]
+image:https://img.shields.io/clojars/v/com.dkdhub/edn-config.svg[]
+image:https://img.shields.io/github/v/tag/dkdhub/edn-config[GitHub tag (latest by date)]
+image:https://img.shields.io/github/last-commit/dkdhub/edn-config[GitHub last commit]
 
 == Status
 
