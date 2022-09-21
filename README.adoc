@@ -2,6 +2,11 @@
 
 A small library for explicit, intentful configuration.
 
+image:https://img.shields.io/github/license/dkdhub/edn-config[GitHub]
+image:https://img.shields.io/clojars/v/com.dkdhub/edn-config.svg[]
+image:https://img.shields.io/github/v/tag/dkdhub/edn-config[GitHub tag (latest by date)]
+image:https://img.shields.io/github/last-commit/dkdhub/edn-config[GitHub last commit]
+
 == Rationale
 
 The library was originally developed and maintained till early 2020 by JUXT LTD as just/aero but since then seems abandoned and not reflecting proposed fixes and changes.
@@ -18,10 +23,21 @@ should be as easy as just proper replacing dependency and referred `:requires` s
 
 Add the following dependency to your `project.clj` file
 
-image:https://img.shields.io/github/license/dkdhub/edn-config[GitHub]
-image:https://img.shields.io/clojars/v/com.dkdhub/edn-config.svg[]
-image:https://img.shields.io/github/v/tag/dkdhub/edn-config[GitHub tag (latest by date)]
-image:https://img.shields.io/github/last-commit/dkdhub/edn-config[GitHub last commit]
+[source, clojure]
+----
+[com.dkdhub/edn-config "1.0.1"]
+----
+
+and then, in order to replace old library, just use it as an aero replacement:
+
+[source, clojure]
+----
+(ns my.app.impl
+  (:require [edn-config.core :as aero]))
+...
+----
+
+or in any other way you wish.
 
 == Status
 
