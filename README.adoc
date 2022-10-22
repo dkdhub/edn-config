@@ -2,10 +2,10 @@
 
 A small library for explicit, intentful configuration.
 
-image:https://img.shields.io/github/license/dkdhub/edn-config[GitHub]
-image:https://img.shields.io/clojars/v/com.dkdhub/edn-config.svg[]
-image:https://img.shields.io/github/v/tag/dkdhub/edn-config[GitHub tag (latest by date)]
-image:https://img.shields.io/github/last-commit/dkdhub/edn-config[GitHub last commit]
+image:https://img.shields.io/github/license/dkdhub/edn-config?style=for-the-badge[GitHub]
+image:https://img.shields.io/clojars/v/com.dkdhub/edn-config.svg?style=for-the-badge[Clojars]
+image:https://img.shields.io/github/v/tag/dkdhub/edn-config?style=for-the-badge[GitHub tag (latest by date)]
+image:https://img.shields.io/github/last-commit/dkdhub/edn-config?style=for-the-badge[GitHub last commit]
 
 == Rationale
 
